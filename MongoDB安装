@@ -1,0 +1,63 @@
+MongoDB 下载
+创建数据目录
+  MongoDB将数据目录存储在 db 目录下。
+命令行下运行 MongoDB 服务器
+  C:\mongodb\bin\mongod --dbpath c:\data\db
+连接MongoDB
+  C:\mongodb\bin\mongo.exe
+配置 MongoDB 服务
+  创建数据库和日志文件的目录
+  mkdir c:\data\db
+  mkdir c:\data\log
+  创建配置文件
+  创建一个配置文件位于 C:\mongodb\mongod.cfg，其中指定 systemLog.path 和 storage.dbPath。具体配置内容如下：
+  systemLog:
+    destination: file
+    path: c:\data\log\mongod.log
+  storage:
+      dbPath: c:\data\db
+安装 MongoDB服务
+  C:\mongodb\bin\mongod.exe --config "C:\mongodb\mongod.cfg" --install
+启动MongoDB服务
+  net start MongoDB
+关闭MongoDB服务
+  net stop MongoDB
+移除 MongoDB 服务
+  C:\mongodb\bin\mongod.exe --remove
+
+MongoDB 后台管理 Shell
+  当你进入mongoDB后台后，它默认会链接到 test 文档（数据库）：
+  > mongo
+    MongoDB shell version: 3.0.6
+    connecting to: test
+    ……
+  db 命令用于查看当前操作的文档（数据库）：
+  > db
+    test
+    >
+  插入一些简单的记录并查找它：
+  > db.runoob.insert({x:10})
+    WriteResult({ "nInserted" : 1 })
+    > db.runoob.find()
+    { "_id" : ObjectId("5604ff74a274a611b0c990aa"), "x" : 10 }
+    >
+    第一个命令将数字 10 插入到 runoob 集合的 x 字段中。
+
+
+
+MongoDb web 用户界面
+  需要在启动的时候指定参数 --rest
+  ./mongod --dbpath=/data/db --rest
+  如果你的MongoDB运行端口使用默认的27017，你可以在端口号为28017访问web用户界面，即地址为：http://localhost:28017。
+
+
+
+
+  SQL术语/概念	MongoDB术语/概念	解释/说明
+  database	   database	数据库
+  table	       collection	数据库表/集合
+  row	         document	数据记录行/文档
+  column	     field	数据字段/域
+  index	       index	索引
+  table joins	 	      表连接,MongoDB不支持
+  primary key	 primary key	主键,MongoDB自动将_id字段设置为主键

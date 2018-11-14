@@ -1,0 +1,74 @@
+第一步：准备好包。
+
+对于kafka，你需要zookeeper,所以你需要下载zookeeper。点击zookeeper下载
+
+下载zookeeper后放入到centos中.放入文件夹software中。
+
+接着准备kafka.点击下载kafka
+
+准备好上面两个后，如果你的centos没有安装jdk怎么办，所以你需要安装个jdk.
+
+安装步骤如下：
+
+1.在/usr/目录下创建java目录
+
+[root@localhost ~]# mkdir/usr/java
+[root@localhost ~]# cd /usr/java
+
+2.下载jdk,然后解压
+
+[root@localhost java]# wget http://download.Oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz 
+[root@localhost java]# tar -zxvf jdk-7u79-linux-x64.tar.gz
+
+3.设置环境变量
+
+[root@localhost java]# vi /etc/profile
+
+在profile中添加如下内容:
+
+#set java environment
+JAVA_HOME=/usr/java/jdk1.7.0_79
+JRE_HOME=/usr/java/jdk1.7.0_79/jre
+CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+export JAVA_HOME JRE_HOME CLASS_PATH PATH
+
+让修改生效:
+
+[root@localhost java]# source /etc/profile
+
+4.验证JDK有效性
+
+[root@localhost java]# java -version
+java version "1.7.0_79"
+Java(TM) SE Runtime Environment (build 1.7.0_79-b15)
+
+Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)
+
+第二步，解压相依的包。
+
+1，解压zookeeper并启动zookeeper
+
+解压语句是：tar -zxvf zookeeper文件。
+
+解压好后，需要启动。
+
+(1):进入到bin里。cd /bin.
+
+(2):启动zookeeper.语句是：./zkServer.sh start
+
+如何检验是否成功了呢。只需要执行一个命令
+
+netatat -nap | grep 2181如果正常则启动成功。
+
+注意：有的时候启动失败，所以你需要排查是否有java如果没有在步骤一中已经告诉你如何配置jdk.还有有的zookeeper中的zoo.cfg并不是叫这个，有的是zoo_sample.cfg。所以请进入conf下执行mv zoo_sample.cfg zoo.cfg..
+
+2:启动kafka
+
+(1):解压kafka ,tar -zxvf kafka的包
+
+(2):启动kafka.只有先启动了zookeeper才能启动kafka。因此先启动kafka.先进入到bin目录下，执行如下：
+
+./kafka-server-start.sh ../config/server.properties
+
+当不报错。就启动成功了。
